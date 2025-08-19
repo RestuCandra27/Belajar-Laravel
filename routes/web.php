@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 
 //untuk mengarahkan ke halaman beranda
@@ -26,4 +27,9 @@ route::get('/about/{id}/detail', function($id){
 
 //untuk mengarahkan ke halaman contact
 Route::view('/contact', 'pages.contact');// Membuat route GET ke '/contact', langsung menampilkan view 'pages.contact' tanpa controller/closure
-route::view('/product', 'pages.product');// Membuat route GET ke '/product', langsung menampilkan view 'pages.detail' tanpa controller/closure
+
+// Rekomendasi urutan
+Route::get('/product', [ProdukController::class, 'index']);
+Route::get('/product/create', [ProdukController::class, 'create']);
+Route::post('/product', [ProdukController::class, 'store']);
+Route::get('/product/{id}', [ProdukController::class, 'show']); // Ini terakhir
