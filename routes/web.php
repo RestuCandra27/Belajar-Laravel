@@ -29,7 +29,12 @@ route::get('/about/{id}/detail', function($id){
 Route::view('/contact', 'pages.contact');// Membuat route GET ke '/contact', langsung menampilkan view 'pages.contact' tanpa controller/closure
 
 // Rekomendasi urutan
-Route::get('/product', [ProdukController::class, 'index']);
-Route::get('/product/create', [ProdukController::class, 'create']);
-Route::post('/product', [ProdukController::class, 'store']);
+Route::get('/product', [ProdukController::class, 'index']);// Ini untuk menampilkan daftar produk
+Route::get('/product/create', [ProdukController::class, 'create']);// Ini untuk menampilkan form tambah produk
+Route::post('/product', [ProdukController::class, 'store']);// Ini untuk menyimpan data produk baru
 Route::get('/product/{id}', [ProdukController::class, 'show']); // Ini terakhir
+
+route::get('/product/{id}/edit', [ProdukController::class, 'edit']);// Ini untuk menampilkan form edit produk
+route::put('/product/{id}', [ProdukController::class, 'update']);// Ini untuk memperbarui data produk yang sudah ada
+
+Route::delete('/product/{id}', [ProdukController::class, 'destroy']);// Ini untuk menghapus produk berdasarkan ID

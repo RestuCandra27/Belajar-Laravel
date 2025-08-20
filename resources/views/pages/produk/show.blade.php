@@ -19,7 +19,12 @@
 <div class="alert alert-primary">{{ session('message') }}</div>
 @endif
 <div class="card">
-    <div class="card-header">Daftar Produk</div>
+    <div class="card-header d-flex justify-content-between align-items-center">Daftar Produk
+      <form class="input-group" style="width: 350px;">
+        <input type="text" class="form-control" placeholder="Cari data produk">
+        <button class="btn btn-success" type="submit" id="button-addon2">Cari Data</button>
+      </form>
+    </div>
   <div class="card-body">
     <table class="table table-striped table-bordered">
   <thead>
@@ -40,8 +45,13 @@
         <td>{{ $item->harga }}</td> {{-- Menampilkan harga produk --}}
         <td>{{ $item->deskripsi }}</td> {{-- Menampilkan deskripsi produk --}}
         <td>
-          <button type="button" class="btn btn-danger">Hapus</button>
-          <button type="button" class="btn btn-warning">Edit</button>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hapus{{ $item->id_produk }}">
+          {{-- Tombol untuk menghapus produk, akan memicu modal konfirmasi hapus --}}
+          Hapus
+        </button>
+          <!-- <button type="button" class="btn btn-danger">Hapus</button> -->
+          <a href="/product/{{ $item->id_produk }}/edit" class="btn btn-warning">Edit</button>
           <a href="/product/{{ $item->id_produk }}" type="button" class="btn btn-info">Detail</a>
         </td>
       </tr>
@@ -50,4 +60,27 @@
 </table>
   </div>
 </div>
+<!-- Modal -->
+ @foreach ($data_produk as $item)
+<div class="modal fade" id="hapus{{ $item->id_produk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="/product/{{ $item->id_produk }}" method="post" class="modal-content">
+      @csrf
+      @method('DELETE')
+      {{-- Menggunakan metode DELETE untuk menghapus data produk --}}
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Hapus Data</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah anda yakin ingin menghapus produk{{ $item->nama_produk }}??
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-danger">Hapus Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+ @endforeach
 @endsection
